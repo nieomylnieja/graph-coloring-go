@@ -23,14 +23,16 @@ type Edge [2]uint32
 type Neighbours map[uint32]*Vertex
 
 type Graph struct {
-	M map[uint32]*Vertex
-	E []Edge
-	I []uint32
+	M    map[uint32]*Vertex
+	E    []Edge
+	I    []uint32
+	Name string
 }
 
-func NewGraph() *Graph {
+func NewGraph(name string) *Graph {
 	return &Graph{
-		M: make(map[uint32]*Vertex),
+		M:    make(map[uint32]*Vertex),
+		Name: name,
 	}
 }
 
@@ -63,11 +65,11 @@ func (g *Graph) ReIndexVertices() {
 }
 
 func (g Graph) String() string {
-	eMax := 0
+	maxDegree := 0
 	for _, v := range g.M {
-		if len(v.N) > eMax {
-			eMax = len(v.N)
+		if len(v.N) > maxDegree {
+			maxDegree = len(v.N)
 		}
 	}
-	return fmt.Sprintf("Graph [%d | %d] {MAX E: %d}", len(g.M), len(g.E), eMax)
+	return fmt.Sprintf("Graph: %s [%d | %d] {MAX degree: %d}", g.Name, len(g.M), len(g.E), maxDegree)
 }

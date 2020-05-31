@@ -7,9 +7,20 @@ import (
 	"github.com/nieomylnieja/graph-coloring-go/graphs"
 )
 
+func New() *Algorithm {
+	return &Algorithm{
+		N: "LDF sequential",
+	}
+}
+
 type Algorithm struct {
 	*graphs.Graph
 	Max uint32
+	N   string
+}
+
+func (a Algorithm) Name() string {
+	return a.N
 }
 
 func (a *Algorithm) Run(graph *graphs.Graph) (int, float64) {

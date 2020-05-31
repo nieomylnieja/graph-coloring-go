@@ -4,21 +4,28 @@ import (
 	"fmt"
 
 	"github.com/nieomylnieja/graph-coloring-go/LDFParallel"
+	"github.com/nieomylnieja/graph-coloring-go/LDFSequential"
 	"github.com/nieomylnieja/graph-coloring-go/graphs"
+	"github.com/nieomylnieja/graph-coloring-go/greedy"
 )
 
 type Algorithm interface {
 	Run(graph *graphs.Graph) (int, float64)
+	Name() string
 }
 
+var mainInstances = []string{"queen6_6", "miles250", "gc1000_300013", "le450_5a", "myciel4", "fpsol2.i.1", "inithx.i.1", "mulsol.i.1"}
+
 func main() {
-	r := graphs.DimacsReader{}
-	g := r.Read(true)
-	fmt.Println(g)
-	samples := 10
-	algorithms := []Algorithm{&LDFParallel.Algorithm{}}
-	for _, a := range algorithms {
-		runAlgorithm(g, a, samples)
+	for _, instance := range mainInstances {
+		r := graphs.DimacsReader{}
+		g := r.Read(instance)
+		fmt.Println(g)
+		samples := 100
+		algorithms := []Algorithm{greedy.New(), LDFSequential.New(), LDFParallel.New()}
+		for _, a := range algorithms {
+			runAlgorithm(g, a, samples)
+		}
 	}
 }
 
@@ -32,6 +39,6 @@ func runAlgorithm(graph *graphs.Graph, algorithm Algorithm, samples int) {
 	}
 	avgC := totalC / samples
 	avgT := totalT / float64(samples)
-	fmt.Printf("Samples: %d | Average colors used: %d | Average time: %f [ms]\n",
-		samples, avgC, avgT)
+	fmt.Printf("Algorithm: %s | Samples: %d | Average colors used: %d | Average time: %f [ms]\n",
+		algorithm.Name(), samples, avgC, avgT)
 }

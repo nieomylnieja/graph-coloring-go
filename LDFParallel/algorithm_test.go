@@ -18,7 +18,7 @@ func BenchmarkAlgorithm_LDFParallel(b *testing.B) {
 
 func init() {
 	r := graphs.DimacsReader{}
-	g = r.Read(true)
+	g = r.Read("myciel4")
 	g.ReIndexVertices()
 	a = &Algorithm{}
 }

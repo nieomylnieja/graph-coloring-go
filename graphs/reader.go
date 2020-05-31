@@ -11,21 +11,16 @@ import (
 )
 
 const (
-	dimacs  = "col"
+	dimacs  = ".col"
 	edge    = 'e'
 	comment = 'c'
 	problem = 'p'
 )
 
-var instances = [5]string{"queen6.col"}
-
 type DimacsReader struct {
 }
 
-func (r DimacsReader) Read(debug bool) *Graph {
-	if debug {
-		return r.read("queen5_5.col")
-	}
+func (r DimacsReader) ReadWithManualChoice() *Graph {
 	files, err := ioutil.ReadDir("./instances")
 	if err != nil {
 		log.Fatal(err)
@@ -37,10 +32,13 @@ func (r DimacsReader) Read(debug bool) *Graph {
 	in := bufio.NewScanner(os.Stdin)
 	in.Scan()
 	fi, _ := strconv.Atoi(in.Text())
-	return r.read(files[fi].Name())
+	return r.Read(files[fi].Name())
 }
 
-func (r DimacsReader) read(f string) *Graph {
+func (r DimacsReader) Read(f string) *Graph {
+	if !strings.HasSuffix(f, dimacs) {
+		f = f + dimacs
+	}
 	file, err := os.Open("instances/" + f)
 	if err != nil {
 		log.Fatal(err)
@@ -49,7 +47,7 @@ func (r DimacsReader) read(f string) *Graph {
 
 	scanner := bufio.NewScanner(file)
 
-	g := NewGraph()
+	g := NewGraph(strings.TrimSuffix(f, dimacs))
 	n := 0
 	for scanner.Scan() {
 		l := scanner.Text()
@@ -69,11 +67,11 @@ func (r DimacsReader) read(f string) *Graph {
 			}
 			log.Printf("wrong line format {n=%d, line='%s', split=%v}\n", n, l, strings.Fields(l[1:]))
 		case problem:
-			if p := strings.Fields(l[1:]); len(p) == 3 {
-				fmt.Printf("Undirected graph (V,E) : [%s | %s]\n", p[1], p[2])
-			}
+			//if p := strings.Fields(l[1:]); len(p) == 3 {
+			//	fmt.Printf("Undirected graph (V,E) : [%s | %s]\n", p[1], p[2])
+			//}
 		case comment:
-			fmt.Println(l[1:])
+			//fmt.Println(l[1:])
 		}
 		n++
 	}

@@ -8,9 +8,20 @@ import (
 	"github.com/nieomylnieja/graph-coloring-go/graphs"
 )
 
+func New() *Algorithm {
+	return &Algorithm{
+		N: "Greedy",
+	}
+}
+
 type Algorithm struct {
 	*graphs.Graph
+	N   string
 	Max int
+}
+
+func (a Algorithm) Name() string {
+	return a.N
 }
 
 func (a *Algorithm) Run(graph *graphs.Graph) (int, float64) {

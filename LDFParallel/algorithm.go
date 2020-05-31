@@ -7,6 +7,12 @@ import (
 	"github.com/nieomylnieja/graph-coloring-go/graphs"
 )
 
+func New() *Algorithm {
+	return &Algorithm{
+		N: "LDF parallel",
+	}
+}
+
 type ColorEvent struct {
 	Color  uint32
 	Vertex uint32
@@ -15,6 +21,11 @@ type ColorEvent struct {
 type Algorithm struct {
 	Graph        map[uint32]*Vertex
 	Orchestrator *Orchestrator
+	N            string
+}
+
+func (a Algorithm) Name() string {
+	return a.N
 }
 
 func (a *Algorithm) Run(graph *graphs.Graph) (int, float64) {
