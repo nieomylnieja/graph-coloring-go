@@ -16,9 +16,10 @@ func BenchmarkAlgorithm_LDFParallel(b *testing.B) {
 	}
 }
 
+// TODO change path to support reading the instances from other packages than main
 func init() {
 	r := graphs.DimacsReader{}
-	g = r.Read("myciel4")
+	g = r.Read("gc500")
 	g.ReIndexVertices()
 	a = &Algorithm{}
 }

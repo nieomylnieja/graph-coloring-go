@@ -14,7 +14,7 @@ type Algorithm interface {
 	Name() string
 }
 
-var mainInstances = []string{"queen6_6", "miles250", "gc1000_300013", "le450_5a", "myciel4", "fpsol2.i.1", "inithx.i.1", "mulsol.i.1"}
+var mainInstances = []string{"queen6_6", "miles250", "gc1000_300013", "gc500", "le450_5a", "myciel4", "fpsol2.i.1", "inithx.i.1", "mulsol.i.1"}
 
 func main() {
 	for _, instance := range mainInstances {
